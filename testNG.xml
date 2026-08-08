@@ -1,0 +1,21 @@
+<!--<suite name="final Project test">-->
+
+<!--    <test name="login page">-->
+<!--        <parameter name="username" value="Tbilisi" />-->
+<!--        <parameter name="password" value="12345678910" />-->
+<!--            <classes>-->
+<!--                <class name="org.example.tests.LoginTest" />-->
+<!--            </classes>-->
+<!--    </test>-->
+
+<!--    <test name="login page with incorrect user">-->
+<!--        <parameter name="username" value="Tbilisiiii" />-->
+<!--        <parameter name="password" value="12345678910" />-->
+<!--        <classes>-->
+<!--            <class name="org.example.tests.LoginTest" />-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--</suite>-->
+
+

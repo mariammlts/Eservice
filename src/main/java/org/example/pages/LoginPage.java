@@ -13,9 +13,6 @@ import java.time.Duration;
 
 public class LoginPage extends BasePage {
 
-    //ელემენტს ავღწერთ თავშივე, ნებისმიერ მეთოდში გამოვიძახებთ მარტივად
-
-
 
     //findby არის ანოტაცია - ეს არ იმუშავებს თუ დინამიური ცვლადია
     @FindBy(id = "username")
@@ -45,7 +42,7 @@ public class LoginPage extends BasePage {
     public LoginPage(WebDriver driver) {
         super(driver);
 
-        //ამის საშუალებით როდესაც გამოიძახებ ელემენტს მაშინ მოვძებნი
+        //როდესაც გამოიძახებ ელემენტს მაშინ მოვძებნი
         PageFactory.initElements(driver, this);
     }
 

@@ -70,7 +70,7 @@ public class InvoicesPage extends BasePage {
 
     public void addProduct(String name, String unit, String qty, String amountVat) {
        sendKeys(productName,name);
-       new Select(goodUnit).selectByValue(unit);
+       new Select(goodUnit).selectByVisibleText(unit);
        sendKeys(quantity,qty);
        sendKeys(amount, amountVat);
        click(addProductBtn);
@@ -82,52 +82,83 @@ public class InvoicesPage extends BasePage {
         Alert alert = driver.switchTo().alert();
         alert.accept();
     }
-
-    public void fillInvoiceForm(String tin, String x, String y) {
+//    String name, String unit,String quantity, String amountVat
+    public void fillBuyerTin(String tin) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         click(newInvoiceBtn);
         sendKeys(buyerTin, tin);
         wait.until(ExpectedConditions.attributeToBeNotEmpty(buyerName, "value"));
-        addProduct("ტესტ", "ცალი", "1", "2000");
-        wait.until(ExpectedConditions.elementToBeClickable(sendBtn));
-        click(sendBtn);
-        confirmSendInvoicePopup();
 
-
+        //wait.until(ExpectedConditions.elementToBeClickable(sendBtn));
     }
 
     public void sendInvoice() {
         click(sendBtn);
+
     }
 
     public void saveInvoice() {
+
         click(saveBtn);
     }
 
-    public String getLastRecordStatus() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        WebElement statusCell = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("(//tr[contains(@class,'rsGridDataRow')])[last()]//td[contains(@class,'rsGridFixColumn')]")
-        ));
-        return statusCell.getText();
+
+
+    private WebElement getLatestInvoiceRow() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+        By latestInvoiceRow = By.xpath(
+                "(//div[@id='rsGrid_grdInvoicesSeller']" +
+                        "//tbody/tr[contains(@class,'rsGridDataRow')])[1]"
+        );
+
+        return wait.until(
+                ExpectedConditions.visibilityOfElementLocated(latestInvoiceRow)
+        );
     }
+
+    public String getLastRecordStatus() {
+        return getLatestInvoiceRow()
+                .findElement(By.cssSelector("td.rsGridFixColumn"))
+                .getText();
+    }
+
+    public String getLastRecordId() {
+        return getLatestInvoiceRow()
+                .findElement(By.xpath("./td[4]"))
+                .getText();
+    }
+
+
+
+
+
 
     public void closeAllPopups() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-        List<WebElement> closeButtons = driver.findElements(By.cssSelector(".rsPopup.popupShow .rsPopupClose"));
+        By loadingPanel = By.id("LoadingPanelrsGrid_grdInvoicesSeller");
+
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingPanel));
+
+        List<WebElement> closeButtons = driver.findElements(
+                By.cssSelector(".rsPopup.popupShow .rsPopupClose")
+        );
 
         for (int i = closeButtons.size() - 1; i >= 0; i--) {
             WebElement closeButton = closeButtons.get(i);
+
             if (closeButton.isDisplayed()) {
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingPanel));
                 wait.until(ExpectedConditions.elementToBeClickable(closeButton));
                 click(closeButton);
             }
         }
+    }
 
 
     }
-}
+
 
 
 

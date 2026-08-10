@@ -19,11 +19,17 @@ public class InvoicesTest extends BaseTest {
         invoicesPage.openInvoices();
         compareText(invoicesPage.getHeaderName(),"ანგარიშ-ფაქტურები");
         invoicesPage.closeAllPopups();
-        invoicesPage.fillInvoiceForm("12345678910", "1", "2000");
+        invoicesPage.fillBuyerTin(ConfigReader.get("buyer.tin"));
+        invoicesPage.addProduct(ConfigReader.get("product.name"),ConfigReader.get("unit"),
+                ConfigReader.get("quantity"), ConfigReader.get("amount.vat"));
         invoicesPage.sendInvoice();
+        invoicesPage.confirmSendInvoicePopup();
 
-        Thread.sleep(3000);
-        System.out.println("ფაქტურის სტატუსია: " + invoicesPage.getLastRecordStatus());
+        String invoiceId = invoicesPage.getLastRecordId();
+        String invoiceStatus = invoicesPage.getLastRecordStatus();
+        System.out.println("ID: " + invoiceId);
+        System.out.println("სტატუსი: " + invoiceStatus);
+
 
     }
 }

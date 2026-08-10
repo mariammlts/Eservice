@@ -33,6 +33,7 @@ public class LoginTest extends BaseTest {
         String expectedColor = "rgba(60, 118, 204, 1)";
 
         compareText(actualColor,expectedColor);
+
     }
 
     @Test

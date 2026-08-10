@@ -123,12 +123,12 @@ public class ApplicationsPage extends BasePage {
     }
 
 
-    public String submitApplicationAndGetId(String fromMonth, String fromYear, String toMonth, String toYear) {
+    public void submitApplicationAndGetId(String fromMonth, String fromYear, String toMonth, String toYear) {
         clickNewApplication();
         selectApplicationId700();
         fillApplicationPeriod(fromMonth, fromYear, toMonth, toYear);
         sendApplication();
-        return applicationIdNumber();
+        //applicationIdNumber();
     }
 
 
@@ -147,7 +147,7 @@ public class ApplicationsPage extends BasePage {
     }
 
     public String waitForApplicationStatusChange(String applicationId, String oldStatus) {
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 60; i++) {
             driver.navigate().refresh();
 
             String currentStatus = getApplicationStatusById(applicationId);
